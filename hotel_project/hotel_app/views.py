@@ -57,6 +57,12 @@ def home(request):
     
     return render(request,'hotel_app/home.html')
 
+def room_list(request):
+    pass
+def book_room(request):
+    pass
+def booking_history(request):
+    pass
 
 
 

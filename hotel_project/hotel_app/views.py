@@ -53,6 +53,8 @@ def user_logout(request):
 def home(request):
     if 'user_id' not in request.session:
         return redirect('user_logi')
+    
+    
     return render(request,'hotel_app/home.html')
 
 

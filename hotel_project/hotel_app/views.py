@@ -1,10 +1,16 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from  django.contrib.auth.hashers import check_password
-from .forms import  Register_form,Login_form
+from .forms import  Register_form,Login_form,Booking_Form
+
+
+
 
 from .Model.Auth_Model.auth import Auth_user
 
 from django.http import HttpResponse
+
+from hotel_app.Model.Hotel_Model.booking import Room_Booking
+from hotel_app.Model.Hotel_Model.room import Room
 
 
 
@@ -42,7 +48,7 @@ def user_login(request):
 
         return render(request, 'hotel_app/login.html',{'form':form})
     
-    else:  # Handle GET request
+    else:  
         form = Login_form()
         return render(request, 'hotel_app/login.html', {'form': form})
     
@@ -58,11 +64,32 @@ def home(request):
     return render(request,'hotel_app/home.html')
 
 def room_list(request):
+    rooms =Room.objects.all()
+    return render(request,'hotel_app/room_list.html',{'rooms':rooms})
     pass
-def book_room(request):
-    pass
+def book_room(request,room_id):
+    room=get_object_or_404(Room,id=room_id)
+    if request.method == 'POST':
+        form=Booking_Form(request.POST)
+        if form.is_valid():
+            customer =form.save()
+            Room_Booking.objects.create(
+                customer=customer,
+                room=room,
+                check_in=form.cleaned_data['check_in'],
+                check_out=form.cleaned_data['check_out']
+            )
+            room.is_available=False
+            room.save()
+            return redirect('history_booking')
+    else:
+        booking_forms=Booking_Form()
+    return render(request,'hotel_app/room_booking.html',{'form':booking_forms,'rooms':room})
+        
 def booking_history(request):
-    pass
+    bookings=Room_Booking.objects.all().order_by('-booked_on')
+    return render(request,'hotel_app/booking_history.html',{'booking_history':bookings})
+    
 
 
 

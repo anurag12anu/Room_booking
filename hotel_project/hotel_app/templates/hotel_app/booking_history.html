@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Booking History</h2>
+    <ul>
+        {% for booking in booking_history %}
+        <li>{{ booking.customer.name }} booked Room {{ booking.room.room_number }}
+            from {{ booking.check_in }} to {{ booking.check_out }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'home_page' %}">Back to Home</a>
+    
+</body>
+</html>

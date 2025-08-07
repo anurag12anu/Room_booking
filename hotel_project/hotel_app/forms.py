@@ -30,10 +30,10 @@ class Login_form(forms.Form):
     )
     
     
-    class Booking_Form(forms.ModelForm):
-        check_in =forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
-        check_out=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+class Booking_Form(forms.ModelForm):
+    check_in =forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+    check_out=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
         
-        class Meta:
-            model=Customer
-            fields=['name','email','phone','check_in','check_out']
+    class Meta:
+        model=Customer
+        fields=['name','email','phone','check_in','check_out']    
